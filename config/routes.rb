@@ -12,4 +12,8 @@ Rails.application.routes.draw do
   end
   
   get "dashboard/index"
+
+  get "/dashboard", to: "dashboard#index"
+  get "/settings", to: "settings#index"
+  delete "/logout", to: "sessions#destroy"
 end
