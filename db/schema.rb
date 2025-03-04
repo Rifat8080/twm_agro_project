@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_25_082941) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_04_103310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
@@ -31,6 +31,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_25_082941) do
     t.index ["user_id"], name: "index_organizations_on_user_id"
   end
 
+  create_table "staffs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "organization_id", null: false
+    t.string "roles", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "organization_id"], name: "index_staffs_on_user_id_and_organization_id", unique: true
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -46,4 +55,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_25_082941) do
 
   add_foreign_key "individuals", "users"
   add_foreign_key "organizations", "users"
+  add_foreign_key "staffs", "organizations"
+  add_foreign_key "staffs", "users"
 end

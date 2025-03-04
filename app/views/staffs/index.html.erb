@@ -1,0 +1,28 @@
+<h1>Staff Members</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Organization</th>
+      <th>Roles</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @staffs.each do |staff| %>
+      <tr>
+        <td><%= staff.user.email %></td>
+        <td><%= staff.organization.organization_name %></td>
+        <td><%= staff.roles.join(", ") %></td>
+        <td>
+          <%= link_to 'Show', staff %> |
+          <%= link_to 'Edit', edit_staff_path(staff) %> |
+          <%= link_to 'Delete', staff, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Add New Staff', new_staff_path %>

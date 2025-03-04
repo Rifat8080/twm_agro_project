@@ -1,18 +1,17 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :validatable
+  has_one :individual
+  has_one :organization
+  has_many :staffs, through: :organization
 
-  has_one :individual, dependent: :destroy
-  has_one :organization, dependent: :destroy
-  
-  validates :role, presence: true, inclusion: { in: %w[individual organization] }
+  # Devise modules
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
+  # Role-based methods
   def individual?
-      role == "individual"
+    role == 'individual'
   end
+
   def organization?
-      role == "organization"
+    role == 'organization'
   end
 end
